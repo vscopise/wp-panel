@@ -1,26 +1,34 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
+import { AppBar, Toolbar, Typography } from '@material-ui/core'
+
+import Login from './Pages/login'
+import Home from './Pages/home'
+
 
 class App extends Component {
+  state = {
+    connected: false,
+    username: '',
+    password: ''
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Fragment>
+        <AppBar position='static' color='primary'>
+          <Toolbar>
+            <Typography variant='h6' color='inherit'>
+              Panel de Administración
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        {this.state.connected && <Home />}
+        {!this.state.connectd && <Login />}
+      </Fragment>
     );
   }
 }
