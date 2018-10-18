@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 
 import { 
   createMuiTheme,
+  List,
+  ListItem,
+  ListItemText,
   MuiThemeProvider,
   Typography 
 } from '@material-ui/core'
@@ -28,32 +31,37 @@ class Home extends Component {
 
 
   componentDidMount(){
-    if(this.props.token != '') {
-      this.setState({title: 'title'})
-    }
 
-    /*let url = constants.SERVER_URL + 'wp-json/wp/v2/posts'
+    let url = constants.SERVER_URL + 'wp-json/wp/v2/posts'
 
-    fetch(url, {
-      method: 'GET'
-    })
+    this.setState({title: url})
+
+    fetch(url)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
-        posts: responseJson.data
+        posts: responseJson
       })
-    })*/    
+    })    
   }
 
   render() {
     return (
+      
+
+
       <MuiThemeProvider theme={theme}>
-        <Typography variant='h6' color='inherit'>
-              {this.state.title}
-        </Typography>
-        {this.state.posts.map((post) => 
-          <div>Post</div>
-        )}
+        <List component="nav">
+          {this.state.posts.map((post) => 
+            <ListItem
+              button
+              
+            >
+              <ListItemText primary={post.title.rendered} />
+
+            </ListItem>
+          )}
+        </List>
       </MuiThemeProvider>
     );
   }
