@@ -1,9 +1,20 @@
-import React, { Component, Fragment } from 'react';
-import { AppBar, Toolbar, Typography } from '@material-ui/core'
+import React, { Component } from 'react';
+import { 
+  AppBar, 
+  createMuiTheme,
+  Toolbar, 
+  MuiThemeProvider,
+  Typography 
+} from '@material-ui/core'
 
 import Login from './Pages/login'
 import Home from './Pages/home'
 
+const theme = createMuiTheme ({
+  typography: {
+      useNextVariants: true,
+  }
+})
 
 class App extends Component {
   state = {
@@ -12,13 +23,16 @@ class App extends Component {
     password: ''
   }
 
-  constructor(props) {
-    super(props)
+  handleConnected = (token) => {
+    this.setState({ 
+      connected: true,
+      token: token 
+    })
   }
 
   render() {
     return (
-      <Fragment>
+      <MuiThemeProvider theme={theme}>
         <AppBar position='static' color='primary'>
           <Toolbar>
             <Typography variant='h6' color='inherit'>
@@ -27,8 +41,8 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         {this.state.connected && <Home />}
-        {!this.state.connectd && <Login />}
-      </Fragment>
+        {!this.state.connected && <Login handler={this.handleConnected} />}
+      </MuiThemeProvider>
     );
   }
 }

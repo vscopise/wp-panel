@@ -11,7 +11,6 @@ import {
     InputLabel,
     MuiThemeProvider,
     Paper,
-    TextField,
     Typography,
     withStyles 
 } from '@material-ui/core'
@@ -56,7 +55,7 @@ const theme = createMuiTheme ({
     }
 })
 
-const SERVER_URL = 'http://wp.pixie.com.uy/'
+const SERVER_URL = 'http://pixie.com.uy/'
 
 class Login extends Component {
 
@@ -64,7 +63,8 @@ class Login extends Component {
         super(props)
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            token: ''
         }
     
     }
@@ -81,32 +81,39 @@ class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        console.log('login')
-        let url = SERVER_URL + 'wp-json/'
+        //console.log('login')
+        let url = SERVER_URL + 'wp-json/jwt-auth/v1/token'
         let username = this.state.username
         let password = this.state.password
 
-        console.log('username - ' + username)
-        console.log('password - ' + password)
-
-
+        //let encodedString = new Buffer(username + ":" + password).toString('base64')
 
         fetch(url, {
-            method: "GET",
+            method: "POST",
             headers:{
+                //'Authorization': 'Basic ' + encodedString
                 'Content-Type': 'application/json',
-                'accept': 'application/json',
+                'Accept': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 username: username,
                 password: password
             })
-        }).then(function(response){
-            console.log(response.json())
-            return response.json();
-        }).then(function(user){
-            console.log(user.token);
-        });
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            let token = responseJson.token
+            //let status = responseJson.data.status
+            //console.log(token)
+            this.setState({
+                token: token,
+                //status: status
+            })
+            if ( undefined != token ){
+                this.props.handler(token)
+            }
+        })
+        //.catch(console.log('Error'));
     }
     
     render() {
@@ -151,6 +158,11 @@ class Login extends Component {
                             control={<Checkbox value='remember' control='primary' />}
                             label='Recuérdame'
                         />
+                        {
+                            (this.state.token === undefined) &&
+                            <Typography>Error</Typography>
+                        }
+                        
                         <Button 
                             type='submit'
                             fullWidth

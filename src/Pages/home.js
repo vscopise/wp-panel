@@ -1,14 +1,25 @@
-import React, { Component, Fragment } from 'react';
-import { Typography } from '@material-ui/core'
+import React, { Component } from 'react';
+
+import { 
+  createMuiTheme,
+  MuiThemeProvider,
+  Typography 
+} from '@material-ui/core'
+
+const theme = createMuiTheme ({
+  typography: {
+      useNextVariants: true,
+  }
+})
 
 class Home extends Component {
   render() {
     return (
-      <Fragment>
+      <MuiThemeProvider theme={theme}>
         <Typography variant='h6' color='inherit'>
               Home
         </Typography>
-      </Fragment>
+      </MuiThemeProvider>
     );
   }
 }
