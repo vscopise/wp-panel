@@ -40,7 +40,7 @@ class App extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        {this.state.connected && <Home />}
+        {this.state.connected && <Home token={this.state.token}/>}
         {!this.state.connected && <Login handler={this.handleConnected} />}
       </MuiThemeProvider>
     );

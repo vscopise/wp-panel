@@ -27,50 +27,33 @@ class Home extends Component {
   }
 
 
-  componentWillMount(){
+  componentDidMount(){
+    if(this.props.token != '') {
+      this.setState({title: 'title'})
+    }
+
+    /*let url = constants.SERVER_URL + 'wp-json/wp/v2/posts'
 
     fetch(url, {
-      method: "GET",
-      headers:{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-          username: username,
-          password: password
-      })
-  })
-  .then((response) => response.json())
-  .then((responseJson) => {
-      let token = responseJson.token
-      //let status = responseJson.data.status
-      //console.log(token)
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
       this.setState({
-          token: token,
-          //status: status
+        posts: responseJson.data
       })
-      if ( undefined !== token ){
-          this.props.handler(token)
-      }
-
-
-    axios
-      .get( 'https://www.carasycaretas.com.uy/wp-json/wp/v2/posts' )
-      .then(res => {
-        this.setState({ 
-          posts: res.data,
-          isLoading: false 
-        });
-      })
-      .catch(error => console.log(error));
+    })*/    
   }
 
   render() {
     return (
       <MuiThemeProvider theme={theme}>
         <Typography variant='h6' color='inherit'>
-              Home
+              {this.state.title}
         </Typography>
+        {this.state.posts.map((post) => 
+          <div>Post</div>
+        )}
       </MuiThemeProvider>
     );
   }
