@@ -16,6 +16,8 @@ import {
 } from '@material-ui/core'
 import LockIcon from '@material-ui/icons/LockOutlined'
 
+import * as constants from '../includes/constants'
+
 const styles = theme => ({
     layout: {
         width: 'auto',
@@ -55,7 +57,7 @@ const theme = createMuiTheme ({
     }
 })
 
-const SERVER_URL = 'http://pixie.com.uy/'
+//const SERVER_URL = 'http://pixie.com.uy/'
 
 class Login extends Component {
 
@@ -81,17 +83,13 @@ class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        //console.log('login')
-        let url = SERVER_URL + 'wp-json/jwt-auth/v1/token'
+        let url = constants.SERVER_URL + 'wp-json/jwt-auth/v1/token'
         let username = this.state.username
         let password = this.state.password
-
-        //let encodedString = new Buffer(username + ":" + password).toString('base64')
 
         fetch(url, {
             method: "POST",
             headers:{
-                //'Authorization': 'Basic ' + encodedString
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
@@ -109,7 +107,7 @@ class Login extends Component {
                 token: token,
                 //status: status
             })
-            if ( undefined != token ){
+            if ( undefined !== token ){
                 this.props.handler(token)
             }
         })
