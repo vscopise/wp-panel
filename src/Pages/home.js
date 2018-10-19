@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemText,
   MuiThemeProvider,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -20,17 +21,21 @@ import {
 
 import * as constants from '../includes/constants'
 
-const styles = theme => ({
+const styles = {
+    root: {
+      width: '100%',
+      overflowX: 'auto',
+    },
     table: {
-      minWidth: 700
+      minWidth: 700,
     },
     td_id: {
-      minWidth:'10%'
+      width: '10%',
     },
     td_tit: {
-      minWidth:'20%'
+      width: '30%',
     }
-})
+}
 
 class Home extends Component {
 
@@ -38,25 +43,45 @@ class Home extends Component {
     super(props)
     this.state = {
       posts: [],
+      categories: [],
+      tags: [],
       isLoading: true
     } 
+    const categories = this.state.categories
   }
 
 
 
   componentDidMount(){
 
-    let url = constants.SERVER_URL + 'wp-json/wp/v2/posts'
+    let url = constants.SERVER_URL 
 
     this.setState({title: url})
 
-    fetch(url)
+    fetch(url + 'wp-json/wp/v2/posts')
     .then((response) => response.json())
-    .then((responseJson) => {
+    .then((response) => {
       this.setState({
-        posts: responseJson
+        posts: response
       })
-    })    
+    })
+    
+    fetch(url + 'wp-json/wp/v2/categories')
+    .then((response) => response.json())
+    .then((response) => {
+      this.setState({
+        categories: response
+      })
+    })
+
+    fetch(url + 'wp-json/wp/v2/tags')
+    .then((response) => response.json())
+    .then((response) => {
+      this.setState({
+        tags: response
+      })
+    })
+
   }
 
   onSelectAllClick = () => {}
@@ -64,12 +89,14 @@ class Home extends Component {
   render(props) {
     const classes = {props}
 
+    let categories = this.state.categories
+
     return (
-      <Table className={classes.table}>
+      <Table>
         <TableHead>
           <TableRow>
-            <TableCell numeric>Id</TableCell>
-            <TableCell className={classes.td_tit}>Título</TableCell>
+            <TableCell numeric style={styles.td_id}>Id</TableCell>
+            <TableCell style={styles.td_tit}>Título</TableCell>
             <TableCell padding={'dense'}>Categorías</TableCell>
             <TableCell padding={'dense'}>Etiquetas</TableCell>
             <TableCell padding={'dense'}>Fecha</TableCell>
@@ -78,12 +105,23 @@ class Home extends Component {
         </TableHead>
         <TableBody>
         {this.state.posts.map((post) => 
-            <TableRow hover={true} style={{ height: 48 }}>
-              <TableCell numeric>{post.id}</TableCell>
-              <TableCell padding={'dense'}>{post.title.rendered}</TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell>{post.date}</TableCell>
+            <TableRow hover={true}>
+              <TableCell numeric padding={'dense'}>
+                {post.id}
+              </TableCell>
+              <TableCell padding={'dense'}>
+                {post.title.rendered}
+              </TableCell>
+              <TableCell padding={'dense'}>
+                {post.categories.map((cat) => 
+                  <span>
+                      {categories[0].name}
+                  </span>
+                )}
+              </TableCell>
+              <TableCell padding={'dense'}>
+              </TableCell>
+              <TableCell padding={'dense'}>{post.date}</TableCell>
             </TableRow>
           )}
         </TableBody>
