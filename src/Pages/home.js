@@ -44,6 +44,7 @@ class Home extends Component {
     this.state = {
       posts: [],
       categories: [],
+      users: [],
       tags: [],
       isLoading: true
     } 
@@ -82,6 +83,14 @@ class Home extends Component {
       })
     })
 
+    fetch(url + 'wp-json/wp/v2/users')
+    .then((response) => response.json())
+    .then((response) => {
+      this.setState({
+        users: response
+      })
+    })
+
   }
 
   onSelectAllClick = () => {}
@@ -95,6 +104,7 @@ class Home extends Component {
           <TableRow>
             <TableCell numeric style={styles.td_id}>Id</TableCell>
             <TableCell style={styles.td_tit}>Título</TableCell>
+            <TableCell padding={'dense'}>Autor</TableCell>
             <TableCell padding={'dense'}>Categorías</TableCell>
             <TableCell padding={'dense'}>Etiquetas</TableCell>
             <TableCell padding={'dense'}>Fecha</TableCell>
@@ -103,7 +113,7 @@ class Home extends Component {
         </TableHead>
         <TableBody>
         {this.state.posts.map((post) => 
-            <TableRow hover={true}>
+            <TableRow hover={true} key={post.id}>
               <TableCell numeric padding={'dense'}>
                 {post.id}
               </TableCell>
@@ -111,16 +121,19 @@ class Home extends Component {
                 {post.title.rendered}
               </TableCell>
               <TableCell padding={'dense'}>
+              {this.state.users.find(obj => obj.id === post.author).name}
+              </TableCell>
+              <TableCell padding={'dense'}>
                 {post.categories.map((cat) => 
-                  <span key={this.state.categories[cat-1].id}>
-                      {this.state.categories[cat-1].name}, 
+                  <span key={this.state.categories.find(obj => obj.id === cat).id}>
+                      {this.state.categories.find(obj => obj.id === cat).name}, 
                   </span>
                 )}
               </TableCell>
               <TableCell padding={'dense'}>
                {post.tags.map((tag) => 
-                  <span>
-                      {tag}, 
+                  <span key={this.state.tags.find(obj => obj.id === tag).id}>
+                      {this.state.tags.find(obj => obj.id === tag).name}, 
                   </span>
                 )}
 
