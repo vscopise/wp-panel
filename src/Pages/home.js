@@ -89,8 +89,6 @@ class Home extends Component {
   render(props) {
     const classes = {props}
 
-    let categories = this.state.categories
-
     return (
       <Table>
         <TableHead>
@@ -114,12 +112,18 @@ class Home extends Component {
               </TableCell>
               <TableCell padding={'dense'}>
                 {post.categories.map((cat) => 
-                  <span>
-                      {categories[0].name}
+                  <span key={this.state.categories[cat-1].id}>
+                      {this.state.categories[cat-1].name}, 
                   </span>
                 )}
               </TableCell>
               <TableCell padding={'dense'}>
+               {post.tags.map((tag) => 
+                  <span>
+                      {tag}, 
+                  </span>
+                )}
+
               </TableCell>
               <TableCell padding={'dense'}>{post.date}</TableCell>
             </TableRow>
