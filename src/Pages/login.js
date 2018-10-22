@@ -101,17 +101,13 @@ class Login extends Component {
         .then((response) => response.json())
         .then((responseJson) => {
             let token = responseJson.token
-            //let status = responseJson.data.status
-            //console.log(token)
             this.setState({
                 token: token,
-                //status: status
             })
             if ( undefined !== token ){
                 this.props.handler(token)
             }
         })
-        //.catch(console.log('Error'));
     }
     
     render() {

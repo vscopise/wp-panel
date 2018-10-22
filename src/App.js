@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { 
   AppBar, 
   createMuiTheme,
   Toolbar, 
-  MuiThemeProvider,
   Typography 
 } from '@material-ui/core'
 
@@ -32,7 +31,7 @@ class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
+      <Fragment>
         <AppBar position='static' color='primary'>
           <Toolbar>
             <Typography variant='h6' color='inherit'>
@@ -42,8 +41,8 @@ class App extends Component {
         </AppBar>
         {this.state.connected && <Home token={this.state.token}/>}
         {!this.state.connected && <Login handler={this.handleConnected} />}
-      </MuiThemeProvider>
-    );
+      </Fragment>
+    )
   }
 }
 

@@ -1,0 +1,38 @@
+.post-table{
+    min-width: 700;
+}
+.post-table tr:nth-child(2n+1){
+    background-color: #f9f9f9;
+}
+.post-table .header-table tr {
+    height: 12px;
+}
+.post-table td,
+.post-table th {
+    padding: 4px 4px 4px 4px;
+}
+.post-table th, .post-table th.titulo {
+    font-size: 0.8125rem;
+    font-weight: normal;
+    height: 20px;
+}
+.post-table .check-column {
+    width: 2.2em;
+}
+
+.post-table .titulo {
+    font-weight: bold;
+    font-size: 1rem;
+}
+.post-table .autor {
+    width: 10%;
+}
+.post-table .categorias {
+    width: 15%;
+}
+.post-table .etiquetas {
+    width: 15%;
+}
+.post-table .fecha {
+    width: 10%;
+}
