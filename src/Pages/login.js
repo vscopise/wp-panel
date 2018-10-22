@@ -15,7 +15,7 @@ import {
     withStyles 
 } from '@material-ui/core'
 import LockIcon from '@material-ui/icons/LockOutlined'
-
+import axios from 'axios'
 import * as constants from '../includes/constants'
 
 const styles = theme => ({
@@ -81,13 +81,29 @@ class Login extends Component {
         })
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault()
+    handleSubmit = (e) => {
+        e.preventDefault()
         let url = constants.SERVER_URL + 'wp-json/jwt-auth/v1/token'
         let username = this.state.username
         let password = this.state.password
 
-        fetch(url, {
+        axios.post(
+            url, 
+            { username, password }
+        )
+        .then(res => {
+            //console.log(res)
+            let token = res.data.token
+            this.setState({
+                token: token,
+            })
+            if ( undefined !== token ){
+                this.props.handler(token)
+            }
+        })
+        .catch(error => console.log(error))
+
+        /*fetch(url, {
             method: "POST",
             headers:{
                 'Content-Type': 'application/json',
@@ -107,7 +123,7 @@ class Login extends Component {
             if ( undefined !== token ){
                 this.props.handler(token)
             }
-        })
+        })*/
     }
     
     render() {
